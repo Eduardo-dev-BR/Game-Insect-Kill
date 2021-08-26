@@ -1,6 +1,25 @@
 //Setar fora do escopo de variavel para utilizar depois
 var altura = 0
 var largura = 0
+var vidas = 1 
+var tempo = 15
+
+//recuperar url e atribuir em variavel
+var nivel = window.location.search
+//Retirar parametro da url
+nivel = nivel.replace('?', '')
+
+//Definir parametro para niveis de dificuldade ja setados
+if(nivel === 'normal'){
+    //1500
+    criaMosquitoTempo = 1500
+} else if(nivel === 'dificil'){
+    //1000
+    criaMosquitoTempo = 1000
+}else if(nivel === 'chucknorris'){
+    //500
+    criaMosquitoTempo = 800
+}
 
 //Criar funcao para mapear a tela
 function ajustaTamanhoPalcoJogo(){
@@ -12,6 +31,21 @@ function ajustaTamanhoPalcoJogo(){
 
 ajustaTamanhoPalcoJogo()
 
+//Criar uma função para exibir o tempo do cronometro dentro do respectivo elemento html
+    var cronometro = setInterval(function(){
+        tempo -= 1
+        //Caso o tempo seja menor que 0, vai para a lógica de vitória do jogador
+        if(tempo < 0){
+            //Ao passar a funcao que cria as moscas para uma variavel, usá-la como parametro de parada
+            clearInterval(criaMosca)
+            //elimina a função da memoria da aplicação
+            clearInterval(cronometro)
+            window.location.href = 'vitoria.html'
+        }else{
+        document.getElementById('cronometro').innerHTML = tempo
+        }
+    },1000)
+
 //Criar funcao para que posicao randomica aconteca
 function posicaoRandomica(){
 
@@ -22,9 +56,16 @@ function posicaoRandomica(){
 
     //remover o elemento anterior caso já exista
         var el = document.getElementById('mosquito')
-        
+    //Caso os pontos de vida se esgotarem, ele entra para a lógica de encerramento
+        var vi = document.getElementById('v' + vidas)
         if(el){
             el.remove()
+            if(vidas > 3){
+                window.location.href = 'fim_de_jogo.html'
+            } else{
+                vi.src="imagens/coracao_vazio.png"
+                vidas++
+            }
         }
 
     //limitar para apenas dentro do quadro, impedindo valores negativos
@@ -46,6 +87,9 @@ function posicaoRandomica(){
     mosquito.style.position = 'absolute'
     //criar um identificador único para o elemento
     mosquito.id = 'mosquito'
+    mosquito.onclick = function() {
+        this.remove()
+    }
     
     document.body.appendChild(mosquito)
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <title>Mata Mosquito</title>
 
     <link rel="stylesheet" href="estilo.css">
@@ -9,11 +9,26 @@
 </head>
 <body onresize="ajustaTamanhoPalcoJogo()">
 
+    <div class="painel">
+        <div class="vidas">
+            <img id="v1" src="imagens/coracao_cheio.png" />
+            <img id="v2" src="imagens/coracao_cheio.png" />
+            <img id="v3" src="imagens/coracao_cheio.png" />
+
+        </div><!--vidas-->
+        <div class="cronometro">
+            Tempo restante: <span id="cronometro"></span>
+        </div><!--cronometro-->
+    </div><!--painel-->
+
     <script>
+        //criar o elemento para que exiba o valor total antes de iniciar o decremento
+        document.getElementById('cronometro').innerHTML = tempo
+
         //executar em loop a funcao de criar elementos dinamicamente
-        setInterval(function(){
+        var criaMosca = setInterval(function(){
             posicaoRandomica()
-        }, 1000)
+        }, criaMosquitoTempo)
     </script>
 </body>
 </html>
